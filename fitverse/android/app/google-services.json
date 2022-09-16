@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "348603844446",
+    "project_id": "myfitverse",
+    "storage_bucket": "myfitverse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348603844446:android:6f8510fe030c6a8abff1cf",
+        "android_client_info": {
+          "package_name": "com.firstapp.fitverse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348603844446-942rtebjsqv8ri47jd9gr2qrardgnch0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdqgIz6BAWlba0Ngxdl5AwgZPj9XV8vTQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348603844446-942rtebjsqv8ri47jd9gr2qrardgnch0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
