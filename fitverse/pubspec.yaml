@@ -39,6 +39,16 @@ dependencies:
   change_app_package_name: ^1.1.0
   firebase_auth: ^1.1.0
   fluttertoast: ^8.0.4
+  curved_navigation_bar: ^1.0.1
+  shared_preferences: ^2.0.15
+  package_info: ^2.0.2
+  flutter_web_browser: ^0.17.1
+  url_launcher: ^6.1.5
+  launch_review: ^3.0.1
+  provider: ^6.0.3
+  flutter_icons:
+    git:
+      url: https://github.com/adarsh-technocrat/flutter-icons
 
 dev_dependencies:
   flutter_test:

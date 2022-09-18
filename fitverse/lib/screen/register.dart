@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fitverse/model/profile.dart';
-import 'package:fitverse/screen/home.dart';
 import 'package:fitverse/screen/login.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -91,7 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           gravity: ToastGravity.TOP);
                                       Navigator.pushReplacement(context,
                                           MaterialPageRoute(builder: (context) {
-                                        return HomeScreen();
+                                        return LoginScreen();
                                       }));
                                     });
                                   } on FirebaseAuthException catch (e) {
