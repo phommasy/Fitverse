@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fitverse/screen/home.dart';
+import 'package:fitverse/screen/login.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -27,7 +27,7 @@ class WelcomeScreen extends StatelessWidget {
                     (value) {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
-                        return HomeScreen();
+                        return LoginScreen();
                       }));
                     },
                   );

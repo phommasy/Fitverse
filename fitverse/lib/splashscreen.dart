@@ -1,4 +1,4 @@
-import 'package:fitverse/screen/home.dart';
+import 'package:fitverse/screen/login.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
           seconds: 4,
         ), () {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return HomeScreen();
+        return LoginScreen();
       }));
     });
     super.initState();
