@@ -8,4 +8,5 @@ class Config {
   static const String appIcon = 'assets/images/fitverselogo.png';
   static const String facebookPageUrl =
       'https://www.facebook.com/phommasy.bounleutay';
+  static const String logo = 'assets/images/fitverselogo.png';
 }
