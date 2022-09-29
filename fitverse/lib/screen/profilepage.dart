@@ -277,14 +277,15 @@ class _ProfilepageScreenState extends State<ProfilepageScreen> {
                                 color: Theme.of(context).colorScheme.primary),
                           ),
                           trailing: Icon(Feather.chevron_right),
-                          onTap: () {
-                            auth.signOut().then((value) {
-                              Navigator.pushReplacement(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return LoginScreen();
-                              }));
-                            });
-                          },
+                          onTap: () => LogoutDialogpage(context),
+                          // onTap: () {
+                          //   auth.signOut().then((value) {
+                          //     Navigator.pushReplacement(context,
+                          //         MaterialPageRoute(builder: (context) {
+                          //       return LoginScreen();
+                          //     }));
+                          //   });
+                          // },
                         ),
                       ],
                     ),
@@ -299,6 +300,34 @@ class _ProfilepageScreenState extends State<ProfilepageScreen> {
         ],
       ),
     );
+  }
+
+  void LogoutDialogpage(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Would you like to log out?'),
+            actions: [
+              TextButton(
+                child: Text('No'),
+                onPressed: () => Navigator.pop(context),
+              ),
+              TextButton(
+                child: Text('Yes'),
+                onPressed: () async {
+                  Navigator.pop(context);
+                  auth.signOut().then((value) {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return LoginScreen();
+                    }));
+                  });
+                },
+              )
+            ],
+          );
+        });
   }
 }
 

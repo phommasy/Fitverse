@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 37,
-                              color: Colors.blue,
+                              color: Colors.deepOrange,
                               letterSpacing: 4),
                         ),
                         Padding(
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             margin: EdgeInsets.symmetric(horizontal: 60),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: Colors.blue[800],
+                              color: Colors.orange[800],
                             ),
                             child: MaterialButton(
                               height: 50,
