@@ -1,4 +1,5 @@
 import 'package:fitverse/components/cached_image.dart';
+import 'package:fitverse/components/nextpagesapp.dart';
 import 'package:fitverse/model/contents.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -60,16 +61,23 @@ class Card1 extends StatelessWidget {
                       Icon(
                         CupertinoIcons.time,
                         size: 16,
-                        color: Theme.of(context).secondaryHeaderColor,
+                        color: Colors.black,
                       ),
                       SizedBox(
                         width: 3,
                       ),
                       Text(
-                        d.date,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Theme.of(context).secondaryHeaderColor),
+                        "Open Hours:",
+                        style: TextStyle(fontSize: 12, color: Colors.black
+                            //color: Theme.of(context).secondaryHeaderColor
+                            ),
+                      ),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Text(
+                        d.openhour,
+                        style: TextStyle(fontSize: 12, color: Colors.black),
                       ),
                       Spacer(),
                     ],
@@ -80,7 +88,7 @@ class Card1 extends StatelessWidget {
           ],
         ),
       ),
-      // onTap: () => navigateToDetailsScreen(context, d, heroTag),
+      onTap: () => navigateToDetailsScreen(context, d, heroTag),
     );
   }
 }

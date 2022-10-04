@@ -22,14 +22,14 @@ class RecentBloc extends ChangeNotifier {
     if (_lastVisible == null)
       rawData = await firestore
           .collection('contents')
-          .orderBy('date', descending: true)
+          .orderBy('cid', descending: true)
           .limit(4)
           .get();
     else
       rawData = await firestore
           .collection('contents')
-          .orderBy('date', descending: true)
-          .startAfter([_lastVisible['date']])
+          .orderBy('cid', descending: true)
+          .startAfter([_lastVisible['cid']])
           .limit(4)
           .get();
 
