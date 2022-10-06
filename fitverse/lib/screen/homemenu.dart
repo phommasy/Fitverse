@@ -1,7 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:fitverse/screen/bookmarkpage.dart';
 import 'package:fitverse/screen/profilepage.dart';
-import 'package:fitverse/screen/searchpage.dart';
+import 'package:fitverse/screen/categorypage.dart';
 import 'package:fitverse/screen/welcome.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final screens = [
     WelcomeScreen(),
-    SearchScreen(),
+    CategoryScreen(),
     BookmarkScreen(),
     ProfilepageScreen(),
   ];
@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final items = <Widget>[
       Icon(Icons.home, size: 30),
-      Icon(Icons.search, size: 30),
+      Icon(Icons.category, size: 30),
       Icon(Icons.bookmark, size: 30),
       Icon(Icons.person, size: 30),
     ];

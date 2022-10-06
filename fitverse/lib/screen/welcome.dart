@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitverse/components/config.dart';
+import 'package:fitverse/components/nextpagesapp.dart';
 import 'package:fitverse/screen/login.dart';
+import 'package:fitverse/screen/searchscreen.dart';
 import 'package:fitverse/tabandbloc/featured_bloc.dart';
 import 'package:fitverse/tabandbloc/recent_contentsbloc.dart';
 import 'package:fitverse/tabandbloc/taballHome.dart';
@@ -69,7 +71,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   AntDesign.search1,
                   size: 22,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  nextScreenAllApp(context, SearchScreenPage());
+                },
               ),
               SizedBox(
                 width: 10,

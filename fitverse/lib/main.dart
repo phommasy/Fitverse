@@ -1,6 +1,7 @@
 import 'package:fitverse/splashscreen.dart';
 import 'package:fitverse/tabandbloc/featured_bloc.dart';
 import 'package:fitverse/tabandbloc/recent_contentsbloc.dart';
+import 'package:fitverse/tabandbloc/searchbloc.dart';
 import 'package:fitverse/tapandbloc/tabindexhomebloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<TabIndexBlocHome>(
             create: (context) => TabIndexBlocHome()),
         ChangeNotifierProvider<RecentBloc>(create: (context) => RecentBloc()),
+        ChangeNotifierProvider<SearchAllWellness>(
+            create: (context) => SearchAllWellness()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
