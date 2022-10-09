@@ -1,29 +1,176 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fitverse/screen/login.dart';
+import 'package:fitverse/components/cached_image.dart';
+import 'package:fitverse/components/emptypagesearch.dart';
+import 'package:fitverse/components/loading_cards.dart';
+import 'package:fitverse/components/nextpagesapp.dart';
+import 'package:fitverse/model/category.dart';
+import 'package:fitverse/screen/categorybasecontent.dart';
+import 'package:fitverse/tabandbloc/category_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
 
-class CategoryScreen extends StatelessWidget {
-  final auth = FirebaseAuth.instance;
+class CategoryScreen extends StatefulWidget {
+  CategoryScreen({Key key}) : super(key: key);
+
+  @override
+  _CategoryScreenState createState() => _CategoryScreenState();
+}
+
+class _CategoryScreenState extends State<CategoryScreen>
+    with AutomaticKeepAliveClientMixin {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  ScrollController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 0)).then((value) {
+      controller = new ScrollController()..addListener(_scrollListener);
+      context.read<CategoryShowBloc>().getData(mounted);
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(_scrollListener);
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    final db = context.read<CategoryShowBloc>();
+
+    if (!db.isLoading) {
+      if (controller.position.pixels == controller.position.maxScrollExtent) {
+        context.read<CategoryShowBloc>().setLoading(true);
+        context.read<CategoryShowBloc>().getData(mounted);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    final cb = context.watch<CategoryShowBloc>();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Category Page"),
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        title: Text('Fitverse Categories'),
+        elevation: 0,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Feather.rotate_cw,
+              size: 22,
+            ),
+            onPressed: () {
+              context.read<CategoryShowBloc>().onRefresh(mounted);
+            },
+          )
+        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Center(
-          child: Column(
-            children: [
-              Text(
-                auth.currentUser.email,
-                style: TextStyle(fontSize: 25),
+      body: RefreshIndicator(
+        child: cb.hasData == false
+            ? ListView(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.35,
+                  ),
+                  EmptySearchPage(
+                      icon: Feather.clipboard,
+                      message: 'No categories found',
+                      message1: ''),
+                ],
+              )
+            : ListView.separated(
+                controller: controller,
+                padding:
+                    EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                itemCount: cb.data.length != 0 ? cb.data.length + 1 : 10,
+                itemBuilder: (_, int index) {
+                  if (index < cb.data.length) {
+                    return _ItemList(d: cb.data[index]);
+                  }
+                  return Opacity(
+                    opacity: cb.isLoading ? 1.0 : 0.0,
+                    child: cb.lastVisible == null
+                        ? LoadingCard(height: null)
+                        : Center(
+                            child: SizedBox(
+                                width: 32.0,
+                                height: 32.0,
+                                child: new CupertinoActivityIndicator()),
+                          ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(),
               ),
-            ],
-          ),
-        ),
+        onRefresh: () async {
+          context.read<CategoryShowBloc>().onRefresh(mounted);
+        },
       ),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class _ItemList extends StatelessWidget {
+  final CategoryModel d;
+  const _ItemList({Key key, this.d}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Container(
+          height: 160,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    blurRadius: 10,
+                    offset: Offset(0, 3),
+                    color: Theme.of(context).shadowColor)
+              ]),
+          child: Stack(
+            children: [
+              Hero(
+                tag: 'category${d.cat_date}',
+                child: Container(
+                  height: 160,
+                  width: MediaQuery.of(context).size.width,
+                  child: CustomCacheImage(imageUrl: d.cat_pic, radius: 5.0),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                  margin: EdgeInsets.only(left: 15, bottom: 15, right: 10),
+                  child: Text(
+                    d.cat_name,
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: -0.6),
+                  ),
+                ),
+              )
+            ],
+          )),
+      onTap: () {
+        nextScreenAllApp(
+            context,
+            CategoryBaseOnContent(
+              category: d.cat_name,
+              categoryPic: d.cat_pic,
+              tag: 'category${d.cat_date}',
+            ));
+      },
     );
   }
 }

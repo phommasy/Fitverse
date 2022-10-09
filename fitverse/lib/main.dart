@@ -1,4 +1,5 @@
 import 'package:fitverse/splashscreen.dart';
+import 'package:fitverse/tabandbloc/category_bloc.dart';
 import 'package:fitverse/tabandbloc/featured_bloc.dart';
 import 'package:fitverse/tabandbloc/recent_contentsbloc.dart';
 import 'package:fitverse/tabandbloc/searchbloc.dart';
@@ -23,6 +24,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<RecentBloc>(create: (context) => RecentBloc()),
         ChangeNotifierProvider<SearchAllWellness>(
             create: (context) => SearchAllWellness()),
+        ChangeNotifierProvider<CategoryShowBloc>(
+            create: (context) => CategoryShowBloc()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

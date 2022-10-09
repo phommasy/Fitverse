@@ -57,7 +57,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             centerTitle: false,
             titleSpacing: 0,
             title: Text(
-              "  Fitverse",
+              "  Fitverse Home",
               style: TextStyle(fontSize: 20),
             ),
             // title: Image(
