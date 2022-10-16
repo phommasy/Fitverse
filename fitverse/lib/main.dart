@@ -2,6 +2,7 @@ import 'package:fitverse/splashscreen.dart';
 import 'package:fitverse/tabandbloc/category_bloc.dart';
 import 'package:fitverse/tabandbloc/featured_bloc.dart';
 import 'package:fitverse/tabandbloc/recent_contentsbloc.dart';
+import 'package:fitverse/tabandbloc/reservationbloc.dart';
 import 'package:fitverse/tabandbloc/searchbloc.dart';
 import 'package:fitverse/tapandbloc/tabindexhomebloc.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,8 @@ class MyApp extends StatelessWidget {
             create: (context) => SearchAllWellness()),
         ChangeNotifierProvider<CategoryShowBloc>(
             create: (context) => CategoryShowBloc()),
+        ChangeNotifierProvider<ReservationShowBloc>(
+            create: (context) => ReservationShowBloc()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
