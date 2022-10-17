@@ -217,8 +217,8 @@ class _ArticleBookingDetailState extends State<ArticleBookingDetail> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 child: Text(
-                                  "Delete This Booking",
-                                  style: TextStyle(fontSize: 20),
+                                  "Cancel This Reservation",
+                                  style: TextStyle(fontSize: 18),
                                 ),
                                 onPressed: () {
                                   DeleteDataDialogpage(context);
@@ -244,7 +244,7 @@ class _ArticleBookingDetailState extends State<ArticleBookingDetail> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Would you like to delete this reservation?'),
+            title: Text('Would you like to cancel this reservation?'),
             actions: [
               TextButton(
                 child: Text('No'),
@@ -254,7 +254,6 @@ class _ArticleBookingDetailState extends State<ArticleBookingDetail> {
                 child: Text('Yes'),
                 onPressed: () async {
                   final Reservation deletebooking = widget.data;
-                  // final auth = FirebaseAuth.instance;
 
                   QuerySnapshot querySnap = await FirebaseFirestore.instance
                       .collection('reservation_tb')
@@ -264,6 +263,7 @@ class _ArticleBookingDetailState extends State<ArticleBookingDetail> {
                       0]; // Assumption: the query returns only one document, THE doc you are looking for.
                   DocumentReference docRef = doc.reference;
                   await docRef.delete();
+
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) {
                     return HomeScreen();

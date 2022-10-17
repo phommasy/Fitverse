@@ -1,3 +1,4 @@
+import 'package:fitverse/components/appinfosetting.dart';
 import 'package:fitverse/splashscreen.dart';
 import 'package:fitverse/tabandbloc/category_bloc.dart';
 import 'package:fitverse/tabandbloc/featured_bloc.dart';
@@ -29,6 +30,8 @@ class MyApp extends StatelessWidget {
             create: (context) => CategoryShowBloc()),
         ChangeNotifierProvider<ReservationShowBloc>(
             create: (context) => ReservationShowBloc()),
+        ChangeNotifierProvider<SettingsBloc>(
+            create: (context) => SettingsBloc()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

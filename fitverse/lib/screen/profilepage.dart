@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitverse/components/nextpagesapp.dart';
 import 'package:fitverse/screen/login.dart';
+import 'package:fitverse/screen/qrcodegen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
@@ -89,6 +91,27 @@ class _ProfilepageScreenState extends State<ProfilepageScreen> {
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).colorScheme.primary),
                           ),
+                        ),
+                        SizedBox(height: 15),
+                        ListTile(
+                          contentPadding: EdgeInsets.all(0),
+                          leading: CircleAvatar(
+                            backgroundColor: Color.fromARGB(255, 233, 87, 30),
+                            radius: 18,
+                            child: Icon(
+                              Icons.qr_code,
+                              size: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                          title: Text(
+                            'Your QR code',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.primary),
+                          ),
+                          onTap: () => nextScreenAllApp(context, GenerateQR()),
                         ),
                       ],
                     ),
