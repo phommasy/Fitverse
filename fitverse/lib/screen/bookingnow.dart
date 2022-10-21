@@ -210,6 +210,9 @@ class _FormBookingNowState extends State<FormBookingNow> {
                                         DateTime.now().millisecondsSinceEpoch,
                                   });
                                   formkey.currentState.reset();
+                                  Fluttertoast.showToast(
+                                      msg: "Reservation successful!",
+                                      gravity: ToastGravity.CENTER);
                                   Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) {
                                     return HomeScreen();

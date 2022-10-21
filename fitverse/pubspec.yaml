@@ -60,6 +60,7 @@ dependencies:
   flutter_icons:
     git:
       url: https://github.com/adarsh-technocrat/flutter-icons
+  flutter_barcode_scanner: ^2.0.0
 
 
 flutter_icons:

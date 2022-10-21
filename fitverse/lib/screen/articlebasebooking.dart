@@ -11,6 +11,7 @@ import 'package:fitverse/screen/homemenu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ArticleBookingDetail extends StatefulWidget {
   final Reservation data;
@@ -263,6 +264,10 @@ class _ArticleBookingDetailState extends State<ArticleBookingDetail> {
                       0]; // Assumption: the query returns only one document, THE doc you are looking for.
                   DocumentReference docRef = doc.reference;
                   await docRef.delete();
+
+                  Fluttertoast.showToast(
+                      msg: "Cancel this reservation successful!",
+                      gravity: ToastGravity.CENTER);
 
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) {

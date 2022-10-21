@@ -1,8 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitverse/components/nextpagesapp.dart';
+import 'package:fitverse/screen/comfirmscan.dart';
 import 'package:fitverse/screen/login.dart';
-import 'package:fitverse/screen/qrcodegen.dart';
+import 'package:fitverse/screen/scanqrcode.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:fitverse/components/appservice.dart';
@@ -31,6 +35,34 @@ class _ProfilepageScreenState extends State<ProfilepageScreen> {
             ),
           );
         });
+  }
+
+  String _scanBarcode = "";
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> scanQR() async {
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.QR);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ScanQRcodeComfirm(
+              qrcoderesult: _scanBarcode,
+            ),
+          ));
+    });
   }
 
   @override
@@ -94,25 +126,24 @@ class _ProfilepageScreenState extends State<ProfilepageScreen> {
                         ),
                         SizedBox(height: 15),
                         ListTile(
-                          contentPadding: EdgeInsets.all(0),
-                          leading: CircleAvatar(
-                            backgroundColor: Color.fromARGB(255, 233, 87, 30),
-                            radius: 18,
-                            child: Icon(
-                              Icons.qr_code,
-                              size: 18,
-                              color: Colors.white,
+                            contentPadding: EdgeInsets.all(0),
+                            leading: CircleAvatar(
+                              backgroundColor: Color.fromARGB(255, 233, 87, 30),
+                              radius: 18,
+                              child: Icon(
+                                Icons.qr_code,
+                                size: 18,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                          title: Text(
-                            'Your QR code',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).colorScheme.primary),
-                          ),
-                          onTap: () => nextScreenAllApp(context, GenerateQR()),
-                        ),
+                            title: Text(
+                              'Scan QR code',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
+                            onTap: () => scanQR()),
                       ],
                     ),
                   ),
