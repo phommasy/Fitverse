@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:fitverse/model/attend.dart';
 import 'package:fitverse/screen/homemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +18,12 @@ class ScanQRcodeComfirm extends StatefulWidget {
 
 class _ScanQRcodeComfirmState extends State<ScanQRcodeComfirm> {
   final auth = FirebaseAuth.instance;
+  AttendWN myAttend = AttendWN();
+
+  final Future<FirebaseApp> firebase = Firebase.initializeApp();
+
+  CollectionReference _myAttendCollection =
+      FirebaseFirestore.instance.collection("attend_tb");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +62,16 @@ class _ScanQRcodeComfirmState extends State<ScanQRcodeComfirm> {
                                   0]; // Assumption: the query returns only one document, THE doc you are looking for.
                               DocumentReference docRef = doc.reference;
                               await docRef.delete();
+
+                              await _myAttendCollection.add({
+                                "cid": widget.qrcoderesult,
+                                "date": DateTime.now(),
+                                "email": auth.currentUser.email,
+                                "timestamp":
+                                    DateTime.now().millisecondsSinceEpoch,
+                                "uid": auth.currentUser.uid,
+                              });
+
                               Fluttertoast.showToast(
                                   msg: "Attending successful!",
                                   gravity: ToastGravity.CENTER);
