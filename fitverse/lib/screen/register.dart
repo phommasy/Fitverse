@@ -123,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               child: Center(
                                 child: ElevatedButton.icon(
                                   icon: Icon(Icons.arrow_back),
-                                  label: Text("Back",
+                                  label: Text("Back to Login",
                                       style: TextStyle(fontSize: 20)),
                                   onPressed: () {
                                     //  Navigator.push(context,

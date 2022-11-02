@@ -94,7 +94,7 @@ class _ScanQRcodeComfirmState extends State<ScanQRcodeComfirm> {
                             return HomeScreen();
                           }));
                         },
-                        child: const Text("Confirmed attend",
+                        child: const Text("Confirmed attend!",
                             style: const TextStyle(fontSize: 16)),
                       ),
                     ])),
