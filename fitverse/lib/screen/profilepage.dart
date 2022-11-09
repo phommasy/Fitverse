@@ -10,6 +10,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:fitverse/components/appservice.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../components/appinfosetting.dart';
 import '../components/config.dart';
 
@@ -370,6 +371,9 @@ class _ProfilepageScreenState extends State<ProfilepageScreen> {
               TextButton(
                 child: Text('Yes'),
                 onPressed: () async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.remove('email');
                   Navigator.pop(context);
                   auth.signOut().then((value) {
                     Navigator.pushReplacement(context,

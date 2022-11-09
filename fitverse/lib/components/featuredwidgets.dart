@@ -30,6 +30,11 @@ class _FeaturedState extends State<Featured> {
             controller: PageController(initialPage: 0),
             scrollDirection: Axis.horizontal,
             itemCount: fb.data.isEmpty ? 1 : fb.data.length,
+            onPageChanged: (index) {
+              setState(() {
+                listIndex = index;
+              });
+            },
             itemBuilder: (BuildContext context, int index) {
               if (fb.data.isEmpty) return LoadingFeaturedCard();
               return FeaturedCard(

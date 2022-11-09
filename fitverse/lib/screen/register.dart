@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fitverse/model/profile.dart';
 import 'package:fitverse/screen/login.dart';
+import 'package:fitverse/screen/verifyemailpage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -90,7 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           gravity: ToastGravity.TOP);
                                       Navigator.pushReplacement(context,
                                           MaterialPageRoute(builder: (context) {
-                                        return LoginScreen();
+                                        return VerifyEmailPage();
                                       }));
                                     });
                                   } on FirebaseAuthException catch (e) {

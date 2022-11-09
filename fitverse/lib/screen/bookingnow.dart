@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fitverse/model/reservation.dart';
+import 'package:fitverse/screen/bookmarkpage.dart';
 import 'package:fitverse/screen/homemenu.dart';
+import 'package:fitverse/tabandbloc/reservationbloc.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 class FormBookingNow extends StatefulWidget {
   final String articleID;
@@ -213,6 +216,11 @@ class _FormBookingNowState extends State<FormBookingNow> {
                                   Fluttertoast.showToast(
                                       msg: "Reservation successful!",
                                       gravity: ToastGravity.CENTER);
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => BookmarkScreen()),
+                                  // ).then((value) => setState(() {}));
                                   Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) {
                                     return HomeScreen();

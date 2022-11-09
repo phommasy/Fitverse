@@ -7,11 +7,14 @@ import 'package:fitverse/components/nextpagesapp.dart';
 import 'package:fitverse/components/viewsarticledetail.dart';
 import 'package:fitverse/model/reservation.dart';
 import 'package:fitverse/screen/bookingnow.dart';
+import 'package:fitverse/screen/bookmarkpage.dart';
 import 'package:fitverse/screen/homemenu.dart';
+import 'package:fitverse/tabandbloc/reservationbloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class ArticleBookingDetail extends StatefulWidget {
   final Reservation data;
@@ -269,6 +272,10 @@ class _ArticleBookingDetailState extends State<ArticleBookingDetail> {
                       msg: "Cancel this reservation successful!",
                       gravity: ToastGravity.CENTER);
 
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => BookmarkScreen()),
+                  // ).then((value) => setState(() {}));
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) {
                     return HomeScreen();

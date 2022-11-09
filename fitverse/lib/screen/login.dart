@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fitverse/screen/forgotpasswordpage.dart';
 import 'package:fitverse/screen/homemenu.dart';
 import 'package:fitverse/screen/register.dart';
+import 'package:fitverse/screen/verifyemailpage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../components/curve_cliper.dart';
 import '../model/profile.dart';
 
@@ -113,6 +116,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (formkey.currentState.validate()) {
                                   formkey.currentState.save();
                                   try {
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    prefs.setString('email', profile.email);
                                     await FirebaseAuth.instance
                                         .signInWithEmailAndPassword(
                                             email: profile.email,
@@ -121,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       formkey.currentState.reset();
                                       Navigator.pushReplacement(context,
                                           MaterialPageRoute(builder: (context) {
-                                        return HomeScreen();
+                                        return VerifyEmailPage();
                                       }));
                                     });
                                   } on FirebaseAuthException catch (e) {
@@ -159,6 +165,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ],
                               ),
                             )),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          child: TextButton(
+                            child: Text(
+                              'Forgot password?',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                            onPressed: () {
+                              //nextScreen(context, ForgotPasswordPage());
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) => ForgotPwPage()));
+                            },
+                          ),
+                        ),
                         Expanded(
                           child: Align(
                             alignment: FractionalOffset.bottomCenter,
