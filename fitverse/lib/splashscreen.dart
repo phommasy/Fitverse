@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
         ), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var email = prefs.getString('email');
-      print(email);
+      // print(email);
       if (email != null) {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) {

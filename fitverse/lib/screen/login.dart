@@ -18,9 +18,20 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _isChecked = false;
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   final formkey = GlobalKey<FormState>();
   Profile profile = Profile();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
+
+  @override
+  void initState() {
+    _loadUserEmailPassword();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,13 +72,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           "Fitverse",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 37,
+                              fontSize: 30,
                               color: Colors.deepOrange,
                               letterSpacing: 4),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: TextFormField(
+                            controller: _emailController,
                             validator: MultiValidator([
                               RequiredValidator(
                                   errorText: "Please input your email!"),
@@ -88,8 +100,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: TextFormField(
+                            controller: _passwordController,
                             validator: RequiredValidator(
-                                errorText: "Please input email!"),
+                                errorText: "Please input password!"),
                             obscureText: true,
                             onSaved: (String password) {
                               profile.password = password;
@@ -101,8 +114,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hintText: "Password"),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: CheckboxListTile(
+                            activeColor: Color.fromARGB(255, 238, 93, 26),
+                            title: Text('Remember Me'),
+                            value: _isChecked,
+                            onChanged: _handleRemeberme,
+                            controlAffinity: ListTileControlAffinity.leading,
+                          ),
+                        ),
                         SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         Container(
                             margin: EdgeInsets.symmetric(horizontal: 60),
@@ -111,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.orange[800],
                             ),
                             child: MaterialButton(
-                              height: 50,
+                              height: 30,
                               onPressed: () async {
                                 if (formkey.currentState.validate()) {
                                   formkey.currentState.save();
@@ -199,7 +222,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 23,
+                                      fontSize: 20,
                                     ),
                                   ),
                                 ),
@@ -311,5 +334,43 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           );
         });
+  }
+
+  void _handleRemeberme(bool value) {
+    // print("Rember Me");
+    _isChecked = value;
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        prefs.setBool("remember_me", value);
+        prefs.setString('email_remember', _emailController.text);
+        prefs.setString('password_remember', _passwordController.text);
+      },
+    );
+    setState(() {
+      _isChecked = value;
+    });
+  }
+
+  void _loadUserEmailPassword() async {
+    // print("Load Email");
+    try {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      var _email = _prefs.getString("email_remember") ?? "";
+      var _password = _prefs.getString("password_remember") ?? "";
+      var _remeberMe = _prefs.getBool("remember_me") ?? false;
+
+      // print(_remeberMe);
+      // print(_email);
+      // print(_password);
+      if (_remeberMe) {
+        setState(() {
+          _isChecked = true;
+        });
+        _emailController.text = _email ?? "";
+        _passwordController.text = _password ?? "";
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }
