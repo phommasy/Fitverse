@@ -31,7 +31,8 @@ class _BookmarkScreenState extends State<BookmarkScreen>
     super.initState();
     Future.delayed(Duration(milliseconds: 0)).then((value) {
       controller = new ScrollController()..addListener(_scrollListener);
-      context.read<ReservationShowBloc>().getData(mounted);
+      // context.read<ReservationShowBloc>().getData(mounted);
+      context.read<ReservationShowBloc>().onRefresh(mounted);
     });
   }
 
