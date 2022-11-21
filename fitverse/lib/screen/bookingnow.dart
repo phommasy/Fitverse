@@ -143,13 +143,22 @@ class _FormBookingNowState extends State<FormBookingNow> {
                               true, //set it true, so that user will not able to edit text
                           onTap: () async {
                             TimeOfDay pickedTime = await showTimePicker(
-                              initialTime: TimeOfDay.now(),
-                              context: context, //context of current state
-                            );
+                                initialTime: TimeOfDay.now(),
+                                context: context,
+                                builder: (context, child) {
+                                  return MediaQuery(
+                                      data: MediaQuery.of(context).copyWith(
+                                          alwaysUse24HourFormat: true),
+                                      child: child);
+                                } //context of current state
+                                );
 
                             if (pickedTime != null) {
-                              print(
-                                  pickedTime.format(context)); //output 10:51 PM
+                              setState(() {
+                                timeinput.text = pickedTime.format(context);
+                              });
+                              // print(
+                              //     pickedTime.format(context)); //output 10:51 PM
                               // DateTime parsedTime = DateFormat.jm()
                               //     .parse(pickedTime.format(context).toString());
                               // //converting to DateTime so that we can further format on different pattern.
@@ -157,13 +166,18 @@ class _FormBookingNowState extends State<FormBookingNow> {
                               //     parsedTime); //output 1970-01-01 22:53:00.000
                               // String formattedTime =
                               //     DateFormat('HH:mm:ss').format(parsedTime);
+                              // String formattedTime =
+                              //     DateFormat('HH:mm').format(parsedTime);
                               // print(formattedTime); //output 14:59:00
                               //DateFormat() is from intl package, you can format the time on any pattern you need.
 
-                              setState(() {
-                                timeinput.text = pickedTime.format(
-                                    context); //set the value of text field.
-                              });
+                              // setState(() {
+                              //   String formattedTime =
+                              //       DateFormat('HH:mm').format(parsedTime);
+                              //   timeinput.text = formattedTime;
+                              //   // timeinput.text = pickedTime.format(
+                              //   //     context); //set the value of text field.
+                              // });
                             } else {
                               print("Time is not selected");
                             }
@@ -195,48 +209,129 @@ class _FormBookingNowState extends State<FormBookingNow> {
                               style: TextStyle(fontSize: 20),
                             ),
                             onPressed: () async {
-                              if (formkey.currentState.validate()) {
-                                formkey.currentState.save();
-                                try {
-                                  await _myreservationCollection.add({
-                                    "cid": widget.articleID,
-                                    "rsdate": myReservation.rsdate,
-                                    "rsdetail": myReservation.rsdetail,
-                                    "email": auth.currentUser.email,
-                                    "uid": auth.currentUser.uid,
-                                    "title": widget.titleID,
-                                    "image": widget.imageID,
-                                    "detail": widget.detailID,
-                                    "category": widget.categoryID,
-                                    "starttiem": myReservation.starttiem,
-                                    "timestamp":
-                                        DateTime.now().millisecondsSinceEpoch,
-                                  });
-                                  formkey.currentState.reset();
-                                  Fluttertoast.showToast(
-                                      msg: "Reservation successful!",
-                                      gravity: ToastGravity.CENTER);
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) => BookmarkScreen()),
-                                  // ).then((value) => setState(() {}));
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return HomeScreen();
-                                  }));
-                                } on FirebaseAuthException catch (e) {
-                                  String messagealerts;
+                              // String rsdate;
 
-                                  messagealerts = e.message;
+                              DocumentSnapshot _lastVisible;
+                              List<DocumentSnapshot> _snap = [];
+                              List<Reservation> _data = [];
 
-                                  // print(e.message);
-                                  //print(e.code);
-                                  Fluttertoast.showToast(
-                                      msg: messagealerts,
-                                      gravity: ToastGravity.CENTER);
+                              QuerySnapshot querySnap = await FirebaseFirestore
+                                  .instance
+                                  .collection('reservation_tb')
+                                  .where('uid', isEqualTo: auth.currentUser.uid)
+                                  .get();
+                              //     .then((querySnap) {
+                              //   rsdate = snapshot.data['rsdate'].toString();
+                              // });
+                              if (querySnap.docs.length > 0) {
+                                _lastVisible =
+                                    querySnap.docs[querySnap.docs.length - 1];
+                                _snap.addAll(querySnap.docs);
+                                _data = _snap
+                                    .map((e) => Reservation.fromFirestore(e))
+                                    .toList();
+
+                                // Map<String, dynamic> datacheckuid =
+                                //     _lastVisible.data();
+
+                                // rsdate = datacheckuid['rsdate'];
+                                var contain = _data.where((element) =>
+                                    element.rsdate ==
+                                    dateinput.text.toString());
+                                if (contain.isEmpty) {
+                                  if (formkey.currentState.validate()) {
+                                    formkey.currentState.save();
+                                    try {
+                                      await _myreservationCollection.add({
+                                        "cid": widget.articleID,
+                                        "rsdate": myReservation.rsdate,
+                                        "rsdetail": myReservation.rsdetail,
+                                        "email": auth.currentUser.email,
+                                        "uid": auth.currentUser.uid,
+                                        "title": widget.titleID,
+                                        "image": widget.imageID,
+                                        "detail": widget.detailID,
+                                        "category": widget.categoryID,
+                                        "starttiem": myReservation.starttiem,
+                                        "timestamp": DateTime.now()
+                                            .millisecondsSinceEpoch,
+                                      });
+                                      formkey.currentState.reset();
+                                      Fluttertoast.showToast(
+                                          msg: "Reservation successful!",
+                                          gravity: ToastGravity.CENTER);
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //       builder: (context) => BookmarkScreen()),
+                                      // ).then((value) => setState(() {}));
+                                      Navigator.pushReplacement(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return HomeScreen();
+                                      }));
+                                    } on FirebaseAuthException catch (e) {
+                                      String messagealerts;
+
+                                      messagealerts = e.message;
+
+                                      // print(e.message);
+                                      //print(e.code);
+                                      Fluttertoast.showToast(
+                                          msg: messagealerts,
+                                          gravity: ToastGravity.CENTER);
+                                    }
+                                  }
+                                } else {
+                                  DeleteDataDialogpage(context);
+                                }
+                              } else {
+                                if (formkey.currentState.validate()) {
+                                  formkey.currentState.save();
+                                  try {
+                                    await _myreservationCollection.add({
+                                      "cid": widget.articleID,
+                                      "rsdate": myReservation.rsdate,
+                                      "rsdetail": myReservation.rsdetail,
+                                      "email": auth.currentUser.email,
+                                      "uid": auth.currentUser.uid,
+                                      "title": widget.titleID,
+                                      "image": widget.imageID,
+                                      "detail": widget.detailID,
+                                      "category": widget.categoryID,
+                                      "starttiem": myReservation.starttiem,
+                                      "timestamp":
+                                          DateTime.now().millisecondsSinceEpoch,
+                                    });
+                                    formkey.currentState.reset();
+                                    Fluttertoast.showToast(
+                                        msg: "Reservation successful!",
+                                        gravity: ToastGravity.CENTER);
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //       builder: (context) => BookmarkScreen()),
+                                    // ).then((value) => setState(() {}));
+                                    Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return HomeScreen();
+                                    }));
+                                  } on FirebaseAuthException catch (e) {
+                                    String messagealerts;
+
+                                    messagealerts = e.message;
+
+                                    // print(e.message);
+                                    //print(e.code);
+                                    Fluttertoast.showToast(
+                                        msg: messagealerts,
+                                        gravity: ToastGravity.CENTER);
+                                  }
                                 }
                               }
+
+                              // if (){
+
+                              // }
                             },
                           ),
                         ),
@@ -255,5 +350,22 @@ class _FormBookingNowState extends State<FormBookingNow> {
         );
       },
     );
+  }
+
+  void DeleteDataDialogpage(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+                'This date is already reserved. Please reserve another date.'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        });
   }
 }

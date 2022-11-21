@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    FirebaseAnalytics().logEvent(name: 'conversion1', parameters: null);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<FeaturedBloc>(
