@@ -280,16 +280,16 @@ class _ProfilepageScreenState extends State<ProfilepageScreen> {
                         ListTile(
                           contentPadding: EdgeInsets.all(0),
                           leading: CircleAvatar(
-                            backgroundColor: Theme.of(context).primaryColor,
+                            backgroundColor: Color.fromARGB(255, 175, 6, 119),
                             radius: 18,
                             child: Icon(
-                              Feather.link,
+                              Feather.instagram,
                               size: 18,
                               color: Colors.white,
                             ),
                           ),
                           title: Text(
-                            'Website',
+                            'Instagram',
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,

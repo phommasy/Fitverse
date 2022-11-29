@@ -3,6 +3,8 @@ import 'package:fitverse/components/nextpagesapp.dart';
 import 'package:fitverse/model/contents.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
+import 'package:html_unescape/html_unescape.dart';
 
 class CategoryBaseArticleCard2 extends StatelessWidget {
   final Article d;
@@ -43,6 +45,18 @@ class CategoryBaseArticleCard2 extends StatelessWidget {
                           maxLines: 4,
                           overflow: TextOverflow.ellipsis,
                         ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                            HtmlUnescape()
+                                .convert(parse(d.address).documentElement.text),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
+                            style: TextStyle(
+                                fontSize: 12,
+                                //color: Theme.of(context).secondaryHeaderColor
+                                color: Colors.black)),
                         SizedBox(
                           height: 10,
                         ),
@@ -107,6 +121,20 @@ class CategoryBaseArticleCard2 extends StatelessWidget {
                   ),
                   Text(
                     d.openhour,
+                    style: TextStyle(fontSize: 12, color: Colors.black),
+                  ),
+                  SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    "to",
+                    style: TextStyle(fontSize: 12, color: Colors.black),
+                  ),
+                  SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    d.closehour,
                     style: TextStyle(fontSize: 12, color: Colors.black),
                   ),
                   Spacer(),

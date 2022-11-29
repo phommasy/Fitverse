@@ -8,6 +8,8 @@ import 'package:fitverse/screen/bookingnow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:html/parser.dart';
+import 'package:html_unescape/html_unescape.dart';
 
 class ArticleDatailAll extends StatefulWidget {
   final Article data;
@@ -40,6 +42,7 @@ class _ArticleDatailAllState extends State<ArticleDatailAll> {
   Widget build(BuildContext context) {
     final sb = FirebaseAuth.instance;
     final Article article = widget.data;
+    var showdcategorywellness = article.category;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -69,14 +72,14 @@ class _ArticleDatailAllState extends State<ArticleDatailAll> {
                                     color: Colors.deepOrangeAccent,
                                   ),
                                   child: AnimatedPadding(
-                                    duration: Duration(milliseconds: 1000),
+                                    duration: Duration(milliseconds: 0),
                                     padding: EdgeInsets.only(
                                         left: 10,
                                         right: rightpadding,
                                         top: 5,
                                         bottom: 5),
                                     child: Text(
-                                      article.category,
+                                      '     $showdcategorywellness     ',
                                       style: TextStyle(
                                           fontSize: 15,
                                           color: Colors.white,
@@ -109,6 +112,26 @@ class _ArticleDatailAllState extends State<ArticleDatailAll> {
                                 ),
                                 Text(
                                   article.openhour,
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 124, 41, 3),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "to",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 124, 41, 3),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  article.closehour,
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 124, 41, 3),
                                       fontWeight: FontWeight.w600,
@@ -159,6 +182,9 @@ class _ArticleDatailAllState extends State<ArticleDatailAll> {
                                       titleID: article.title,
                                       imageID: article.image,
                                       detailID: article.detail,
+                                      openhourID: article.openhour,
+                                      closehourID: article.closehour,
+                                      addressID: article.address,
                                       categoryID: article.category,
                                     ));
                               },
@@ -176,6 +202,32 @@ class _ArticleDatailAllState extends State<ArticleDatailAll> {
                             ),
                             SizedBox(
                               height: 20,
+                            ),
+                            Text(
+                              "Address:",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 124, 41, 3),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            ArticleBodyWidgetHtml(
+                              htmlData: article.address,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Detail:",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 124, 41, 3),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15),
+                            ),
+                            SizedBox(
+                              width: 5,
                             ),
                             ArticleBodyWidgetHtml(
                               htmlData: article.detail,

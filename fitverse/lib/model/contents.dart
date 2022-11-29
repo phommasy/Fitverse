@@ -7,6 +7,8 @@ class Article {
   String image;
   String date;
   String openhour;
+  String closehour;
+  String address;
   String cid;
   int views;
 
@@ -17,6 +19,8 @@ class Article {
     this.image,
     this.date,
     this.openhour,
+    this.closehour,
+    this.address,
     this.cid,
     this.views,
   });
@@ -30,6 +34,8 @@ class Article {
       image: d['image'],
       date: d['date'],
       openhour: d['openhour'],
+      closehour: d['closehour'],
+      address: d['address'],
       cid: d['cid'],
       views: d['views'] ?? null,
     );

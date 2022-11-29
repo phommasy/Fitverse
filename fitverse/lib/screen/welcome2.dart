@@ -63,17 +63,17 @@ class _WelcomeScreen2State extends State<WelcomeScreen2>
         automaticallyImplyLeading: false,
         title: Text('Fitverse'),
         elevation: 0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              AntDesign.search1,
-              size: 22,
-            ),
-            onPressed: () {
-              nextScreenAllApp(context, SearchScreenPage());
-            },
-          )
-        ],
+        // actions: <Widget>[
+        //   // IconButton(
+        //   //   icon: Icon(
+        //   //     AntDesign.search1,
+        //   //     size: 22,
+        //   //   ),
+        //   //   onPressed: () {
+        //   //     nextScreenAllApp(context, SearchScreenPage());
+        //   //   },
+        //   // )
+        // ],
       ),
       body: RefreshIndicator(
         child: cb.hasData == false

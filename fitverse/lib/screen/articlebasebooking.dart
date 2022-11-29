@@ -14,6 +14,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:html/parser.dart';
+import 'package:html_unescape/html_unescape.dart';
 import 'package:provider/provider.dart';
 
 class ArticleBookingDetail extends StatefulWidget {
@@ -154,6 +156,26 @@ class _ArticleBookingDetailState extends State<ArticleBookingDetail> {
                                       fontWeight: FontWeight.w600,
                                       fontSize: 15),
                                 ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "to",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 124, 41, 3),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  article.endtimef,
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 124, 41, 3),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
+                                ),
                               ],
                             ),
                             SizedBox(
@@ -177,7 +199,7 @@ class _ArticleBookingDetailState extends State<ArticleBookingDetail> {
                               height: 5,
                             ),
                             Text(
-                              "Reservation remark",
+                              "Reservation remark:",
                               style: TextStyle(
                                   color: Color.fromARGB(255, 124, 41, 3),
                                   fontWeight: FontWeight.w600,
@@ -190,10 +212,26 @@ class _ArticleBookingDetailState extends State<ArticleBookingDetail> {
                               htmlData: article.rsdetail,
                             ),
                             SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "Address:",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 124, 41, 3),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            ArticleBodyWidgetHtml(
+                              htmlData: article.address,
+                            ),
+                            SizedBox(
                               height: 20,
                             ),
                             Text(
-                              "Wellness detail",
+                              "Wellness detail:",
                               style: TextStyle(
                                   color: Color.fromARGB(255, 124, 41, 3),
                                   fontWeight: FontWeight.w600,

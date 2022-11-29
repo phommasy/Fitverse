@@ -59,6 +59,15 @@ class Card3 extends StatelessWidget {
                   ),
                   Text(
                       HtmlUnescape()
+                          .convert(parse(d.address).documentElement.text),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                      style: TextStyle(
+                          fontSize: 12,
+                          //color: Theme.of(context).secondaryHeaderColor
+                          color: Colors.black)),
+                  Text(
+                      HtmlUnescape()
                           .convert(parse(d.detail).documentElement.text),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
@@ -95,6 +104,20 @@ class Card3 extends StatelessWidget {
                         style: TextStyle(fontSize: 12, color: Colors.black
                             //color: Theme.of(context).secondaryHeaderColor
                             ),
+                      ),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Text(
+                        "to",
+                        style: TextStyle(fontSize: 12, color: Colors.black),
+                      ),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Text(
+                        d.closehour,
+                        style: TextStyle(fontSize: 12, color: Colors.black),
                       ),
                       Spacer(),
                     ],

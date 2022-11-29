@@ -3,6 +3,8 @@ import 'package:fitverse/components/nextpagesapp.dart';
 import 'package:fitverse/model/contents.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
+import 'package:html_unescape/html_unescape.dart';
 
 class CardSearchPage extends StatelessWidget {
   final Article d;
@@ -66,15 +68,15 @@ class CardSearchPage extends StatelessWidget {
                               //color: Theme.of(context).secondaryHeaderColor
                               ),
                         ),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        Text(
+                          d.openhour,
+                          style: TextStyle(color: Colors.black, fontSize: 13),
+                        ),
                         Spacer(),
                       ],
-                    ),
-                    SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      d.openhour,
-                      style: TextStyle(color: Colors.black, fontSize: 13),
                     ),
                   ],
                 ),

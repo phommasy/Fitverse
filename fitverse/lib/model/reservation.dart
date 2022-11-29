@@ -11,7 +11,9 @@ class Reservation {
   String image;
   String detail;
   String category;
+  String address;
   String starttiem;
+  String endtimef;
 
   Reservation(
       {this.cid,
@@ -23,8 +25,10 @@ class Reservation {
       this.timestamp,
       this.image,
       this.detail,
+      this.address,
       this.category,
-      this.starttiem});
+      this.starttiem,
+      this.endtimef});
 
   factory Reservation.fromFirestore(DocumentSnapshot snapshot) {
     Map d = snapshot.data() as Map<dynamic, dynamic>;
@@ -38,8 +42,10 @@ class Reservation {
       timestamp: d['timestamp'],
       image: d['image'],
       detail: d['detail'],
+      address: d['address'],
       category: d['category'],
       starttiem: d['starttiem'],
+      endtimef: d['endtimef'],
     );
   }
 }

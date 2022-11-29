@@ -11,6 +11,7 @@ import 'package:fitverse/tabandbloc/reservationbloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:html/parser.dart';
 import 'package:html_unescape/html_unescape_small.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +34,7 @@ class _BookmarkScreenState extends State<BookmarkScreen>
       controller = new ScrollController()..addListener(_scrollListener);
       // context.read<ReservationShowBloc>().getData(mounted);
       context.read<ReservationShowBloc>().onRefresh(mounted);
+      Showwarningdialogbox(context);
     });
   }
 
@@ -51,6 +53,22 @@ class _BookmarkScreenState extends State<BookmarkScreen>
         context.read<ReservationShowBloc>().getData(mounted);
       }
     }
+  }
+
+  void Showwarningdialogbox(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Please go to the place you booked before 5 minutes.'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -177,6 +195,18 @@ class _ItemList extends StatelessWidget {
                   SizedBox(
                     height: 5,
                   ),
+                  Text(
+                      HtmlUnescape()
+                          .convert(parse(d.address).documentElement.text),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                      style: TextStyle(
+                          fontSize: 12,
+                          //color: Theme.of(context).secondaryHeaderColor
+                          color: Colors.black)),
+                  SizedBox(
+                    height: 5,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -235,9 +265,27 @@ class _ItemList extends StatelessWidget {
                             //color: Theme.of(context).secondaryHeaderColor
                             ),
                       ),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Text(
+                        "to",
+                        style: TextStyle(fontSize: 12, color: Colors.black
+                            //color: Theme.of(context).secondaryHeaderColor
+                            ),
+                      ),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Text(
+                        d.endtimef,
+                        style: TextStyle(fontSize: 12, color: Colors.black
+                            //color: Theme.of(context).secondaryHeaderColor
+                            ),
+                      ),
                       Spacer(),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),
