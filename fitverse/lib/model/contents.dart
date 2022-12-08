@@ -9,6 +9,8 @@ class Article {
   String openhour;
   String closehour;
   String address;
+  String videolink;
+  String videotitle;
   String cid;
   int views;
 
@@ -21,6 +23,8 @@ class Article {
     this.openhour,
     this.closehour,
     this.address,
+    this.videolink,
+    this.videotitle,
     this.cid,
     this.views,
   });
@@ -36,6 +40,8 @@ class Article {
       openhour: d['openhour'],
       closehour: d['closehour'],
       address: d['address'],
+      videolink: d['videolink'],
+      videotitle: d['videotitle'],
       cid: d['cid'],
       views: d['views'] ?? null,
     );

@@ -7,9 +7,12 @@ import 'package:fitverse/model/contents.dart';
 import 'package:fitverse/screen/bookingnow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:html/parser.dart';
 import 'package:html_unescape/html_unescape.dart';
+import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 
 class ArticleDatailAll extends StatefulWidget {
   final Article data;
@@ -21,11 +24,29 @@ class ArticleDatailAll extends StatefulWidget {
 }
 
 class _ArticleDatailAllState extends State<ArticleDatailAll> {
+  VideoPlayerController controller;
+  bool _isVisible;
+
   double rightpadding = 140;
 
   @override
   void initState() {
     super.initState();
+    controller = VideoPlayerController.network(widget.data.videolink);
+
+    if (widget.data.videolink.isEmpty) {
+      _isVisible = false;
+    } else {
+      _isVisible = true;
+    }
+
+    controller.addListener(() {
+      setState(() {});
+    });
+    controller.setLooping(true);
+    controller.initialize().then((_) => setState(() {}));
+    controller.play();
+
     Future.delayed(Duration(milliseconds: 100)).then((value) {
       setState(() {
         rightpadding = 10;
@@ -35,6 +56,7 @@ class _ArticleDatailAllState extends State<ArticleDatailAll> {
 
   @override
   void dispose() {
+    controller.dispose();
     super.dispose();
   }
 
@@ -231,6 +253,96 @@ class _ArticleDatailAllState extends State<ArticleDatailAll> {
                             ),
                             ArticleBodyWidgetHtml(
                               htmlData: article.detail,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Center(
+                              child: Visibility(
+                                  visible: _isVisible,
+                                  child: InkWell(
+                                    onTap: () {
+                                      if (controller.value.isPlaying) {
+                                        controller.pause();
+                                      } else {
+                                        controller.play();
+                                      }
+                                    },
+                                    child: AspectRatio(
+                                      aspectRatio: controller.value.aspectRatio,
+                                      child: VideoPlayer(controller),
+                                    ),
+                                  )),
+                            ),
+                            Container(
+                              child: Visibility(
+                                visible: _isVisible,
+                                //duration of video
+                                child: Text("Total Duration: " +
+                                    controller.value.duration.toString()),
+                              ),
+                            ),
+                            Container(
+                              child: Visibility(
+                                  visible: _isVisible,
+                                  child: VideoProgressIndicator(controller,
+                                      allowScrubbing: true,
+                                      colors: VideoProgressColors(
+                                        backgroundColor: Colors.redAccent,
+                                        playedColor: Colors.green,
+                                        bufferedColor: Colors.purple,
+                                      ))),
+                            ),
+                            Container(
+                              child: Visibility(
+                                  visible: _isVisible,
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            if (controller.value.isPlaying) {
+                                              controller.pause();
+                                            } else {
+                                              controller.play();
+                                            }
+
+                                            setState(() {});
+                                          },
+                                          icon: Icon(controller.value.isPlaying
+                                              ? Icons.pause
+                                              : Icons.play_arrow)),
+                                      IconButton(
+                                          onPressed: () {
+                                            controller
+                                                .seekTo(Duration(seconds: 0));
+
+                                            setState(() {});
+                                          },
+                                          icon: Icon(Icons.stop))
+                                    ],
+                                  )),
+                            ),
+                            // Center(
+                            //     child: InkWell(
+                            //   onTap: () {
+                            //     if (controller.value.isPlaying) {
+                            //       controller.pause();
+                            //     } else {
+                            //       controller.play();
+                            //     }
+                            //   },
+                            //   child: AspectRatio(
+                            //     aspectRatio: controller.value.aspectRatio,
+                            //     child: VideoPlayer(controller),
+                            //   ),
+                            // )),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Center(
+                              child: ArticleBodyWidgetHtml(
+                                htmlData: article.videotitle,
+                              ),
                             ),
                             SizedBox(
                               height: 20,
