@@ -392,11 +392,18 @@ class _FormBookingNowState extends State<FormBookingNow> {
                                         //   MaterialPageRoute(
                                         //       builder: (context) => BookmarkScreen()),
                                         // ).then((value) => setState(() {}));
-                                        Navigator.pushReplacement(context,
+                                        // Navigator.pushReplacement(context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) {
+                                        //   return HomeScreen();
+                                        // }));
+                                        Navigator.pushAndRemoveUntil(context,
                                             MaterialPageRoute(
                                                 builder: (context) {
                                           return HomeScreen();
-                                        }));
+                                        }), (r) {
+                                          return false;
+                                        });
                                       } on FirebaseAuthException catch (e) {
                                         String messagealerts;
 
@@ -480,10 +487,16 @@ class _FormBookingNowState extends State<FormBookingNow> {
                                       //   MaterialPageRoute(
                                       //       builder: (context) => BookmarkScreen()),
                                       // ).then((value) => setState(() {}));
-                                      Navigator.pushReplacement(context,
+                                      // Navigator.pushReplacement(context,
+                                      //     MaterialPageRoute(builder: (context) {
+                                      //   return HomeScreen();
+                                      // }));
+                                      Navigator.pushAndRemoveUntil(context,
                                           MaterialPageRoute(builder: (context) {
                                         return HomeScreen();
-                                      }));
+                                      }), (r) {
+                                        return false;
+                                      });
                                     } on FirebaseAuthException catch (e) {
                                       String messagealerts;
 

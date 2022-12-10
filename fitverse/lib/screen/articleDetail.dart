@@ -13,6 +13,7 @@ import 'package:html/parser.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 
 class ArticleDatailAll extends StatefulWidget {
   final Article data;
@@ -24,7 +25,8 @@ class ArticleDatailAll extends StatefulWidget {
 }
 
 class _ArticleDatailAllState extends State<ArticleDatailAll> {
-  VideoPlayerController controller;
+  FlickManager flickManager;
+  // VideoPlayerController controller;
   bool _isVisible;
 
   double rightpadding = 140;
@@ -32,7 +34,11 @@ class _ArticleDatailAllState extends State<ArticleDatailAll> {
   @override
   void initState() {
     super.initState();
-    controller = VideoPlayerController.network(widget.data.videolink);
+    flickManager = FlickManager(
+      videoPlayerController:
+          VideoPlayerController.network(widget.data.videolink),
+    );
+    // controller = VideoPlayerController.network(widget.data.videolink);
 
     if (widget.data.videolink.isEmpty) {
       _isVisible = false;
@@ -40,12 +46,12 @@ class _ArticleDatailAllState extends State<ArticleDatailAll> {
       _isVisible = true;
     }
 
-    controller.addListener(() {
-      setState(() {});
-    });
-    controller.setLooping(true);
-    controller.initialize().then((_) => setState(() {}));
-    controller.play();
+    // controller.addListener(() {
+    //   setState(() {});
+    // });
+    // controller.setLooping(true);
+    // controller.initialize().then((_) => setState(() {}));
+    // controller.play();
 
     Future.delayed(Duration(milliseconds: 100)).then((value) {
       setState(() {
@@ -56,7 +62,8 @@ class _ArticleDatailAllState extends State<ArticleDatailAll> {
 
   @override
   void dispose() {
-    controller.dispose();
+    flickManager.dispose();
+    // controller.dispose();
     super.dispose();
   }
 
@@ -259,69 +266,72 @@ class _ArticleDatailAllState extends State<ArticleDatailAll> {
                             ),
                             Center(
                               child: Visibility(
-                                  visible: _isVisible,
-                                  child: InkWell(
-                                    onTap: () {
-                                      if (controller.value.isPlaying) {
-                                        controller.pause();
-                                      } else {
-                                        controller.play();
-                                      }
-                                    },
-                                    child: AspectRatio(
-                                      aspectRatio: controller.value.aspectRatio,
-                                      child: VideoPlayer(controller),
-                                    ),
-                                  )),
-                            ),
-                            Container(
-                              child: Visibility(
                                 visible: _isVisible,
-                                //duration of video
-                                child: Text("Total Duration: " +
-                                    controller.value.duration.toString()),
+                                child: FlickVideoPlayer(
+                                    flickManager: flickManager),
+                                // child: InkWell(
+                                //   onTap: () {
+                                //     if (controller.value.isPlaying) {
+                                //       controller.pause();
+                                //     } else {
+                                //       controller.play();
+                                //     }
+                                //   },
+                                //   child: AspectRatio(
+                                //     aspectRatio: controller.value.aspectRatio,
+                                //     child: VideoPlayer(controller),
+                                //   ),
+                                // )
                               ),
                             ),
-                            Container(
-                              child: Visibility(
-                                  visible: _isVisible,
-                                  child: VideoProgressIndicator(controller,
-                                      allowScrubbing: true,
-                                      colors: VideoProgressColors(
-                                        backgroundColor: Colors.redAccent,
-                                        playedColor: Colors.green,
-                                        bufferedColor: Colors.purple,
-                                      ))),
-                            ),
-                            Container(
-                              child: Visibility(
-                                  visible: _isVisible,
-                                  child: Row(
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {
-                                            if (controller.value.isPlaying) {
-                                              controller.pause();
-                                            } else {
-                                              controller.play();
-                                            }
+                            // Container(
+                            //   child: Visibility(
+                            //     visible: _isVisible,
+                            //     //duration of video
+                            //     child: Text("Total Duration: " +
+                            //         controller.value.duration.toString()),
+                            //   ),
+                            // ),
+                            // Container(
+                            //   child: Visibility(
+                            //       visible: _isVisible,
+                            //       child: VideoProgressIndicator(controller,
+                            //           allowScrubbing: true,
+                            //           colors: VideoProgressColors(
+                            //             backgroundColor: Colors.redAccent,
+                            //             playedColor: Colors.green,
+                            //             bufferedColor: Colors.purple,
+                            //           ))),
+                            // ),
+                            // Container(
+                            //   child: Visibility(
+                            //       visible: _isVisible,
+                            //       child: Row(
+                            //         children: [
+                            //           IconButton(
+                            //               onPressed: () {
+                            //                 if (controller.value.isPlaying) {
+                            //                   controller.pause();
+                            //                 } else {
+                            //                   controller.play();
+                            //                 }
 
-                                            setState(() {});
-                                          },
-                                          icon: Icon(controller.value.isPlaying
-                                              ? Icons.pause
-                                              : Icons.play_arrow)),
-                                      IconButton(
-                                          onPressed: () {
-                                            controller
-                                                .seekTo(Duration(seconds: 0));
+                            //                 setState(() {});
+                            //               },
+                            //               icon: Icon(controller.value.isPlaying
+                            //                   ? Icons.pause
+                            //                   : Icons.play_arrow)),
+                            //           IconButton(
+                            //               onPressed: () {
+                            //                 controller
+                            //                     .seekTo(Duration(seconds: 0));
 
-                                            setState(() {});
-                                          },
-                                          icon: Icon(Icons.stop))
-                                    ],
-                                  )),
-                            ),
+                            //                 setState(() {});
+                            //               },
+                            //               icon: Icon(Icons.stop))
+                            //         ],
+                            //       )),
+                            // ),
                             // Center(
                             //     child: InkWell(
                             //   onTap: () {

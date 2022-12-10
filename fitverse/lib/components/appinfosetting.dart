@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:package_info/package_info.dart';
 
 class SettingsBloc extends ChangeNotifier {
-  String _appVersion = '1.4';
+  String _appVersion = '1.4.1';
   String get appVersion => _appVersion;
 
   String _packageName = '';
